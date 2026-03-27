@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sushen</title>
+    <meta name="description" content="Personal portfolio and digital garden for sushen.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600&family=Inter:wght@400;600&family=SF+Mono:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="hint-container fade-in">
+        <span class="hint-text" id="space-hint">hit space</span>
+    </div>
+
+    <main class="container">
+        <!-- Main Name Section -->
+        <div class="name-container fade-in">
+            <h1 class="main-name">
+                <span class="name-en">sushen</span>
+                <span class="name-zh">सुषेण</span>
+            </h1>
+        </div>
+
+        <!-- Accordion Menus -->
+        <div class="menus-container fade-in">
+            <span class="esc-hint-above-menus">esc to collapse</span>
+            <div class="accordion" id="work-accordion">
+                <button class="accordion-header" aria-expanded="false" aria-controls="work-content">WORK <span
+                        class="icon">+</span></button>
+                <div class="accordion-content" id="work-content">
+                    <ul class="item-list">
+                        <li>
+                            <button class="item-header" aria-expanded="false">
+                                <span class="item-name"><span class="dot"></span>PROJECT ONE</span>
+                                <span class="item-icon">+</span>
+                            </button>
+                            <div class="item-details">
+                                <p>Description of the first project goes here. Focusing on minimalist design and robust
+                                    architecture.</p>
+                                <a href="#" class="item-link">View Project →</a>
+                            </div>
+                        </li>
+                        <li>
+                            <button class="item-header" aria-expanded="false">
+                                <span class="item-name"><span class="dot"></span>COMPANY INC.</span>
+                                <span class="item-icon">+</span>
+                            </button>
+                            <div class="item-details">
+                                <p>Software Engineer. Built scalable microservices and improved performance by 40%.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion" id="build-accordion">
+                <button class="accordion-header" aria-expanded="false" aria-controls="build-content">BUILD <span
+                        class="icon">+</span></button>
+                <div class="accordion-content" id="build-content">
+                    <ul class="item-list">
+                        <li>
+                            <button class="item-header" aria-expanded="false">
+                                <span class="item-name"><span class="dot"></span>OPEN SOURCE TOOL</span>
+                                <span class="item-icon">+</span>
+                            </button>
+                            <div class="item-details">
+                                <p>A CLI tool built with Rust to streamline developer workflows.</p>
+                                <a href="#" class="item-link">GitHub →</a>
+                            </div>
+                        </li>
+                        <li>
+                            <button class="item-header" aria-expanded="false">
+                                <span class="item-name"><span class="dot"></span>SIDE HUSTLE APP</span>
+                                <span class="item-icon">+</span>
+                            </button>
+                            <div class="item-details">
+                                <p>A full-stack Next.js application for tracking personal finance.</p>
+                                <a href="#" class="item-link">Live Site →</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion" id="read-accordion">
+                <button class="accordion-header" aria-expanded="false" aria-controls="read-content">READ <span
+                        class="icon">+</span></button>
+                <div class="accordion-content" id="read-content">
+                    <ul class="item-list">
+                        <li>
+                            <div class="item-reading">
+                                <span class="book-title">The Pragmatic Programmer</span>
+                                <span class="book-author">by David Thomas, Andrew Hunt</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-reading">
+                                <span class="book-title">Designing Data-Intensive Applications</span>
+                                <span class="book-author">by Martin Kleppmann</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-reading">
+                                <span class="book-title">Clean Architecture</span>
+                                <span class="book-author">by Robert C. Martin</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Links -->
+    <footer class="footer fade-in">
+        <div class="footer-links">
+            <a href="#" target="_blank" rel="noopener noreferrer">X</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">GH</a>
+            <span id="local-time">LA 12:00 PM</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
