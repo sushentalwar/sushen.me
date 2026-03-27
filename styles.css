@@ -1,0 +1,388 @@
+:root {
+    --bg-color: #0c1210;
+    /* Very deep green-black */
+    --text-primary: #e6e6e6;
+    --text-muted: #888888;
+    --font-serif: 'EB Garamond', Georgia, serif;
+    --font-mono: 'SF Mono', 'Roboto Mono', Consolas, monospace;
+    --font-name: 'EB Garamond', Georgia, serif;
+    /* Main name font */
+    --transition-speed: 0.4s;
+}
+
+body.light-theme {
+    --bg-color: #f5f2eb;
+    /* Off-white / light beige from reference image */
+    --text-primary: #000000;
+    --text-muted: #666666;
+    --font-name: 'Playfair Display', Georgia, serif;
+}
+
+body.navy-theme {
+    --bg-color: #050b14;
+    /* Deep navy blue */
+    --text-primary: #e2e8f0;
+    --text-muted: #718096;
+    --font-name: 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    /* Default to mono for utility text */
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* Typography Details */
+h1 {
+    font-family: var(--font-name);
+    font-weight: 400;
+}
+
+button {
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    text-align: left;
+    outline: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--text-primary);
+}
+
+ul {
+    list-style: none;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 2rem;
+    position: relative;
+    transform: translateY(-5vh);
+    /* Slightly offset from dead center */
+}
+
+/* Hit Space Hint */
+.hint-container {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+}
+
+.hint-text {
+    font-size: 11px;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+}
+
+.esc-hint-above-menus {
+    position: absolute;
+    top: -25px;
+    /* Above the first accordion */
+    left: 0;
+    font-size: 11px;
+    text-transform: lowercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.menus-container.has-open .esc-hint-above-menus {
+    opacity: 1;
+}
+
+/* Main Name - Hover Translation Effect */
+.name-container {
+    margin-bottom: 6rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.main-name {
+    font-size: 6rem;
+    letter-spacing: -1px;
+    position: relative;
+    cursor: default;
+    display: inline-block;
+}
+
+.name-en,
+.name-zh {
+    transition: opacity var(--transition-speed) ease;
+}
+
+.name-zh {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    font-size: 5rem;
+    /* slightly smaller to fit bounds nicely */
+    white-space: nowrap;
+}
+
+/* The hover logic */
+.main-name:hover .name-en {
+    opacity: 0;
+}
+
+.main-name:hover .name-zh {
+    opacity: 1;
+}
+
+/* Accordion Menus container */
+.menus-container {
+    width: 100%;
+    max-width: 400px;
+    /* Keep the menu columns constrained */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.accordion {
+    width: 100%;
+}
+
+/* Category Headers (WORK +, BUILD +, READ +) */
+.accordion-header {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+
+.accordion-header .icon {
+    margin-left: 0.5rem;
+    color: var(--text-muted);
+    font-size: 11px;
+    transition: transform 0.3s ease;
+}
+
+/* Expanding Content Logic */
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.accordion.open .accordion-content {
+    max-height: 1000px;
+    /* arbitrary large max-height for CSS transition */
+    transition: max-height 1s ease-in-out;
+}
+
+/* Inside the category: Sub-items */
+.item-list {
+    margin-top: 1rem;
+    padding-left: 10px;
+    /* Indent sub items */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    /* very subtle vertical line */
+}
+
+.item-list>li {
+    position: relative;
+}
+
+.item-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+
+.item-header:hover {
+    color: var(--text-primary);
+}
+
+.item-name {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background-color: var(--text-primary);
+    border-radius: 50%;
+    position: absolute;
+    left: -15px;
+    /* position dot outside */
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.item-header:hover .dot,
+.item-list>li.open .dot {
+    opacity: 1;
+}
+
+.item-icon {
+    font-size: 11px;
+}
+
+/* Sub-item detailed description */
+.item-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+    color: var(--text-muted);
+    padding-top: 0;
+    margin-left: 20px;
+    /* indent description more */
+}
+
+.item-list>li.open .item-details {
+    max-height: 200px;
+    padding-top: 0.5rem;
+    transition: max-height 0.6s ease-in-out;
+}
+
+.item-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--text-primary);
+    font-style: italic;
+    font-family: var(--font-serif);
+}
+
+/* Simple reading list items */
+.item-reading {
+    color: var(--text-muted);
+    margin-left: 20px;
+    line-height: 1.8;
+}
+
+.book-title {
+    color: var(--text-primary);
+    font-style: italic;
+    font-family: var(--font-serif);
+    font-size: 15px;
+}
+
+.book-author {
+    margin-left: 8px;
+    font-size: 11px;
+}
+
+/* Footer Links */
+.footer {
+    position: fixed;
+    bottom: 30px;
+    left: 40px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.footer-links a:hover {
+    color: var(--text-primary);
+}
+
+/* Animations upon load */
+.fade-in {
+    animation: fadeIn 1.5s ease-out forwards;
+    opacity: 0;
+}
+
+.hint-container.fade-in {
+    animation-delay: 1.5s;
+}
+
+.name-container.fade-in {
+    animation-delay: 0.2s;
+}
+
+.menus-container.fade-in {
+    animation-delay: 0.8s;
+}
+
+.footer.fade-in {
+    animation-delay: 1.2s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive constraints */
+@media (max-width: 600px) {
+    .main-name {
+        font-size: 4rem;
+    }
+
+    .name-zh {
+        font-size: 3.5rem;
+    }
+
+    .hint-container {
+        top: 20px;
+        right: 20px;
+    }
+
+    .footer {
+        left: 20px;
+        bottom: 20px;
+    }
+}
