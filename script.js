@@ -80,12 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastColorIdx = -1;
 
     function applyRandomStyle() {
-        // Pick new font
         let fontIdx;
         do { fontIdx = Math.floor(Math.random() * sansFonts.length); } while (fontIdx === lastFontIdx);
         lastFontIdx = fontIdx;
 
-        // Pick new color
         let colorIdx;
         do { colorIdx = Math.floor(Math.random() * palette.length); } while (colorIdx === lastColorIdx);
         lastColorIdx = colorIdx;
@@ -108,9 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Keyboard Navigation ---
+    // Only block space on INPUT and TEXTAREA — not on buttons, so it always fires
     document.addEventListener('keydown', (e) => {
         const tag = e.target.tagName;
-        if ((e.code === 'Space' || e.key === ' ') && tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'BUTTON') {
+        if ((e.code === 'Space' || e.key === ' ') && tag !== 'INPUT' && tag !== 'TEXTAREA') {
             e.preventDefault();
             applyRandomStyle();
         }
