@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         header.addEventListener('click', () => {
             const accordion = header.parentElement;
             const isOpen = accordion.classList.contains('open');
-
             if (isOpen) {
                 accordion.classList.remove('open');
                 header.setAttribute('aria-expanded', 'false');
@@ -37,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             const li = header.parentElement;
             const isOpen = li.classList.contains('open');
-
             if (isOpen) {
                 li.classList.remove('open');
                 header.setAttribute('aria-expanded', 'false');
@@ -62,75 +60,64 @@ document.addEventListener('DOMContentLoaded', () => {
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter&family=DM+Sans&family=Outfit&family=Manrope&family=Nunito&family=Raleway&family=Poppins&family=Lato&family=Montserrat&family=Source+Sans+3&family=Karla&family=Rubik&family=Work+Sans&family=Jost&family=Mulish&family=Barlow&family=Figtree&family=Plus+Jakarta+Sans&family=Urbanist&family=Sora&family=Be+Vietnam+Pro&family=Lexend&family=Noto+Sans&family=IBM+Plex+Sans&family=Space+Grotesk&display=swap';
     document.head.appendChild(fontLink);
 
-    function generatePalette() {
-        const colors = [];
-        for (let i = 0; i < 150; i++) {
-            const base = 235 + Math.floor(Math.random() * 20);
-            const r = base;
-            const g = base - Math.floor(Math.random() * 10);
-            const b = base + Math.floor(Math.random() * 15);
-            colors.push(`rgb(${Math.min(r,255)}, ${Math.min(g,255)}, ${Math.min(b,255)})`);
-        }
-        for (let i = 0; i < 150; i++) {
-            const lightness = 10 + Math.floor(Math.random() * 75);
-            const saturation = 30 + Math.floor(Math.random() * 60);
-            const hue = 200 + Math.floor(Math.random() * 40);
-            colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
-        }
-        return colors;
+    // Build palette: 150 off-whites + 150 blues
+    const palette = [];
+    for (let i = 0; i < 150; i++) {
+        const base = 235 + Math.floor(Math.random() * 20);
+        const r = Math.min(base, 255);
+        const g = Math.min(base - Math.floor(Math.random() * 10), 255);
+        const b = Math.min(base + Math.floor(Math.random() * 15), 255);
+        palette.push({ color: `rgb(${r}, ${g}, ${b})`, dark: false });
+    }
+    for (let i = 0; i < 150; i++) {
+        const lightness = 10 + Math.floor(Math.random() * 75);
+        const saturation = 30 + Math.floor(Math.random() * 60);
+        const hue = 200 + Math.floor(Math.random() * 40);
+        palette.push({ color: `hsl(${hue}, ${saturation}%, ${lightness}%)`, dark: lightness < 50 });
     }
 
-    const palette = generatePalette();
-    let lastFontIndex = -1;
-    let lastColorIndex = -1;
-
-    function getRandomDifferent(arr, lastIndex) {
-        let idx;
-        do { idx = Math.floor(Math.random() * arr.length); } while (idx === lastIndex);
-        return idx;
-    }
+    let lastFontIdx = -1;
+    let lastColorIdx = -1;
 
     function applyRandomStyle() {
-        const fontIdx = getRandomDifferent(sansFonts, lastFontIndex);
-        const colorIdx = getRandomDifferent(palette, lastColorIndex);
-        lastFontIndex = fontIdx;
-        lastColorIndex = colorIdx;
+        // Pick new font
+        let fontIdx;
+        do { fontIdx = Math.floor(Math.random() * sansFonts.length); } while (fontIdx === lastFontIdx);
+        lastFontIdx = fontIdx;
+
+        // Pick new color
+        let colorIdx;
+        do { colorIdx = Math.floor(Math.random() * palette.length); } while (colorIdx === lastColorIdx);
+        lastColorIdx = colorIdx;
 
         const font = sansFonts[fontIdx];
-        const color = palette[colorIdx];
+        const { color, dark } = palette[colorIdx];
+        const textPrimary = dark ? '#e6e6e6' : '#1a1a1a';
+        const textMuted = dark ? '#888888' : '#666666';
+        const dividerColor = dark ? 'rgba(230,230,230,0.2)' : 'rgba(26,26,26,0.2)';
 
         document.body.style.backgroundColor = color;
         document.body.style.fontFamily = `'${font}', sans-serif`;
-
-        const isDark = color.includes('hsl') && parseInt(color.match(/(\d+)%\)/)[1]) < 50;
-        const textColor = isDark ? '#e6e6e6' : '#1a1a1a';
-
-        document.body.style.color = textColor;
-        document.documentElement.style.setProperty('--text-primary', textColor);
-        document.documentElement.style.setProperty('--text-muted', isDark ? '#888888' : '#666666');
+        document.body.style.color = textPrimary;
+        document.documentElement.style.setProperty('--text-primary', textPrimary);
+        document.documentElement.style.setProperty('--text-muted', textMuted);
         document.documentElement.style.setProperty('--bg-color', color);
 
-        // Update divider line to match text color
         const dividerLine = document.querySelector('.divider-line');
-        if (dividerLine) {
-            dividerLine.style.backgroundColor = isDark ? 'rgba(230,230,230,0.2)' : 'rgba(26,26,26,0.2)';
-        }
+        if (dividerLine) dividerLine.style.backgroundColor = dividerColor;
     }
 
     // --- Keyboard Navigation ---
     document.addEventListener('keydown', (e) => {
-        if ((e.code === 'Space' || e.key === ' ') && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        const tag = e.target.tagName;
+        if ((e.code === 'Space' || e.key === ' ') && tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'BUTTON') {
             e.preventDefault();
             applyRandomStyle();
         }
 
         if (e.code === 'Escape' || e.key === 'Escape') {
-            document.querySelectorAll('.accordion, .item-list > li').forEach(el => {
-                el.classList.remove('open');
-            });
-            document.querySelectorAll('.accordion-header, .item-header').forEach(header => {
-                header.setAttribute('aria-expanded', 'false');
-            });
+            document.querySelectorAll('.accordion, .item-list > li').forEach(el => el.classList.remove('open'));
+            document.querySelectorAll('.accordion-header, .item-header').forEach(h => h.setAttribute('aria-expanded', 'false'));
             updateMenuContainerState();
         }
     });
@@ -141,9 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTime() {
         if (!timeDisplay) return;
         const now = new Date();
-        const options = { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true };
-        const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
-        timeDisplay.textContent = `SF ${timeString}`;
+        const opts = { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true };
+        timeDisplay.textContent = `SF ${new Intl.DateTimeFormat('en-US', opts).format(now)}`;
     }
 
     setInterval(updateTime, 60000);
