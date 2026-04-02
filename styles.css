@@ -201,6 +201,9 @@ ul {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+    .accordion-content p {
+    color: var(--text-muted);
+}
 }
 
 .accordion.open .accordion-content {
