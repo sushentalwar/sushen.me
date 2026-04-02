@@ -73,12 +73,13 @@ ul {
     list-style: none;
 }
 
+/* Layout */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 800px;
+    max-width: 1100px;
     padding: 2rem;
     position: relative;
     transform: translateY(-5vh);
@@ -114,8 +115,9 @@ ul {
     opacity: 1;
 }
 
+/* Main Name */
 .name-container {
-    margin-bottom: 6rem;
+    margin-bottom: 4rem;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -133,9 +135,25 @@ ul {
     transition: opacity var(--transition-speed) ease;
 }
 
+/* Two-column menus container */
 .menus-container {
     width: 100%;
-    max-width: 700px;
+    max-width: 1100px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.columns-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 4rem;
+    align-items: start;
+    width: 100%;
+}
+
+.column {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -145,6 +163,7 @@ ul {
     width: 100%;
 }
 
+/* Category Headers */
 .accordion-header {
     text-transform: uppercase;
     letter-spacing: 1.5px;
@@ -155,22 +174,38 @@ ul {
     padding-bottom: 0.5rem;
 }
 
+/* Rotating arrow icon */
 .accordion-header .icon {
     margin-left: 0.5rem;
     color: var(--text-muted);
-    font-size: 11px;
-    transition: transform 0.3s ease;
+    font-size: 10px;
+    display: inline-block;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
 }
 
+.accordion.open .accordion-header .icon {
+    transform: rotate(90deg);
+}
+
+/* Accordion content: fade + slide */
 .accordion-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1),
+                opacity 0.3s ease,
+                transform 0.3s ease;
 }
 
 .accordion.open .accordion-content {
     max-height: 9999px;
-    transition: max-height 1s ease-in-out;
+    opacity: 1;
+    transform: translateY(0);
+    transition: max-height 1s ease-in-out,
+                opacity 0.4s ease 0.05s,
+                transform 0.35s ease;
 }
 
 .accordion-content p {
@@ -182,6 +217,7 @@ ul {
     text-decoration: underline;
 }
 
+/* Sub-items */
 .item-list {
     margin-top: 1rem;
     padding-left: 10px;
@@ -234,14 +270,28 @@ ul {
     opacity: 1;
 }
 
+/* Rotating arrow for sub-items */
 .item-icon {
-    font-size: 11px;
+    font-size: 10px;
+    display: inline-block;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+    color: var(--text-muted);
 }
 
+.item-list>li.open .item-icon {
+    transform: rotate(90deg);
+}
+
+/* Sub-item details: fade + slide */
 .item-details {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1),
+                opacity 0.25s ease,
+                transform 0.25s ease;
     color: var(--text-muted);
     padding-top: 0;
     margin-left: 20px;
@@ -249,8 +299,12 @@ ul {
 
 .item-list>li.open .item-details {
     max-height: 2000px;
+    opacity: 1;
+    transform: translateY(0);
     padding-top: 0.5rem;
-    transition: max-height 0.6s ease-in-out;
+    transition: max-height 0.6s ease-in-out,
+                opacity 0.3s ease 0.05s,
+                transform 0.3s ease;
 }
 
 .item-details p {
@@ -283,6 +337,7 @@ ul {
     font-size: 11px;
 }
 
+/* Footer */
 .footer {
     position: fixed;
     bottom: 30px;
@@ -301,39 +356,29 @@ ul {
     color: var(--text-primary);
 }
 
+/* Animations */
 .fade-in {
     animation: fadeIn 1.5s ease-out forwards;
     opacity: 0;
 }
 
-.hint-container.fade-in {
-    animation-delay: 1.5s;
-}
-
-.name-container.fade-in {
-    animation-delay: 0.2s;
-}
-
-.menus-container.fade-in {
-    animation-delay: 0.8s;
-}
-
-.footer.fade-in {
-    animation-delay: 1.2s;
-}
+.hint-container.fade-in { animation-delay: 1.5s; }
+.name-container.fade-in { animation-delay: 0.2s; }
+.menus-container.fade-in { animation-delay: 0.8s; }
+.footer.fade-in { animation-delay: 1.2s; }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 600px) {
+/* Responsive: stack columns on mobile */
+@media (max-width: 768px) {
+    .columns-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
     .main-name {
         font-size: 4rem;
     }
