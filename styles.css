@@ -80,9 +80,8 @@ ul {
     align-items: center;
     width: 100%;
     max-width: 1100px;
-    padding: 2rem;
+    padding: 2rem 2rem 3rem 2rem;
     position: relative;
-    transform: translateY(-5vh);
 }
 
 .hint-container {
@@ -138,7 +137,6 @@ ul {
 /* Divider line under name */
 .divider-line {
     width: 100%;
-    max-width: 1100px;
     height: 1px;
     background-color: rgba(255, 255, 255, 0.15);
     margin-bottom: 2.5rem;
@@ -147,7 +145,6 @@ ul {
 /* Two-column menus container */
 .menus-container {
     width: 100%;
-    max-width: 1100px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -347,15 +344,10 @@ ul {
     font-size: 13px;
 }
 
-/* Footer — anchored to container width */
+/* Footer — inside container, naturally aligned with columns */
 .footer {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 100%;
-    max-width: 1100px;
-    padding: 0 2rem;
+    margin-top: 3rem;
     display: flex;
     justify-content: center;
 }
@@ -403,11 +395,5 @@ ul {
     .hint-container {
         top: 20px;
         right: 20px;
-    }
-
-    .footer {
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 20px;
     }
 }
