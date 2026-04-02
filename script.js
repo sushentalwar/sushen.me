@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Accordion Logic for Main Categories (WORK, BUILD, READ) ---
+    // --- Accordion Logic for Main Categories ---
     const categoryHeaders = document.querySelectorAll('.accordion-header');
     const menusContainer = document.querySelector('.menus-container');
 
     function updateMenuContainerState() {
-        // Check if any main accordion is open
         const anyOpen = document.querySelectorAll('.accordion.open').length > 0;
         if (anyOpen) {
             menusContainer.classList.add('has-open');
@@ -18,20 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         header.addEventListener('click', () => {
             const accordion = header.parentElement;
             const icon = header.querySelector('.icon');
-
-            // Toggle open state
             const isOpen = accordion.classList.contains('open');
-
-            // Optionally close others before opening this one (accordion style)
-            // If you want them to operate independently, comment this block out.
-            /*
-            document.querySelectorAll('.accordion').forEach(acc => {
-                acc.classList.remove('open');
-                const accIcon = acc.querySelector('.accordion-header .icon');
-                if (accIcon) accIcon.textContent = '+';
-                acc.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
-            });
-            */
 
             if (isOpen) {
                 accordion.classList.remove('open');
@@ -39,22 +25,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 header.setAttribute('aria-expanded', 'false');
             } else {
                 accordion.classList.add('open');
-                icon.textContent = '−'; // minus sign
+                icon.textContent = '−';
                 header.setAttribute('aria-expanded', 'true');
             }
             updateMenuContainerState();
         });
     });
 
-    // --- Accordion Logic for Sub-items (Projects, Companies) ---
+    // --- Accordion Logic for Sub-items ---
     const itemHeaders = document.querySelectorAll('.item-header');
 
     itemHeaders.forEach(header => {
         header.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent bubbling up to category
+            e.stopPropagation();
             const li = header.parentElement;
             const icon = header.querySelector('.item-icon');
-
             const isOpen = li.classList.contains('open');
 
             if (isOpen) {
@@ -69,49 +54,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Keyboard Navigation ---
-    const hintText = document.getElementById('space-hint');
-    const themes = ['', 'light-theme', 'navy-theme'];
-    let currentThemeIndex = 0;
+    // --- Spacebar: Random Font + Background Color ---
+    const sansFonts = [
+        'Inter', 'DM Sans', 'Outfit', 'Manrope', 'Nunito', 'Raleway',
+        'Poppins', 'Lato', 'Montserrat', 'Source Sans 3', 'Karla',
+        'Rubik', 'Work Sans', 'Jost', 'Mulish', 'Barlow', 'Figtree',
+        'Plus Jakarta Sans', 'Urbanist', 'Sora', 'Be Vietnam Pro',
+        'Lexend', 'Noto Sans', 'IBM Plex Sans', 'Space Grotesk'
+    ];
 
-    document.addEventListener('keydown', (e) => {
-        // Spacebar logic: Toggle Theme
-        // Disable spacebar default scroll if we are not focused on an input
-        if ((e.code === 'Space' || e.key === ' ') && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-            e.preventDefault(); // prevent scrolling
-            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-            document.body.classList.remove('light-theme', 'navy-theme');
-            if (themes[currentThemeIndex] !== '') {
-                document.body.classList.add(themes[currentThemeIndex]);
-            }
+    // Load all fonts via Google Fonts
+    const fontLink = document.createElement('link');
+    fontLink.rel = 'stylesheet';
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter&family=DM+Sans&family=Outfit&family=Manrope&family=Nunito&family=Raleway&family=Poppins&family=Lato&family=Montserrat&family=Source+Sans+3&family=Karla&family=Rubik&family=Work+Sans&family=Jost&family=Mulish&family=Barlow&family=Figtree&family=Plus+Jakarta+Sans&family=Urbanist&family=Sora&family=Be+Vietnam+Pro&family=Lexend&family=Noto+Sans&family=IBM+Plex+Sans&family=Space+Grotesk&display=swap';
+    document.head.appendChild(fontLink);
+
+    // 300 shades: off-whites and blues
+    function generatePalette() {
+        const colors = [];
+
+        // ~150 off-white shades (warm, cool, neutral)
+        for (let i = 0; i < 150; i++) {
+            const base = 235 + Math.floor(Math.random() * 20); // 235-255
+            const r = base;
+            const g = base - Math.floor(Math.random() * 10);
+            const b = base + Math.floor(Math.random() * 15);
+            colors.push(`rgb(${Math.min(r,255)}, ${Math.min(g,255)}, ${Math.min(b,255)})`);
         }
 
-        // Escape key logic: Collapse Accordions
-        if (e.code === 'Escape' || e.key === 'Escape') {
-            document.querySelectorAll('.accordion, .item-list > li').forEach(el => {
-                el.classList.remove('open');
-            });
-            document.querySelectorAll('.icon, .item-icon').forEach(icon => {
-                icon.textContent = '+';
-            });
-            document.querySelectorAll('.accordion-header, .item-header').forEach(header => {
-                header.setAttribute('aria-expanded', 'false');
-            });
-            updateMenuContainerState();
-        }
-    });
-
-    // --- Live Time (Optional Polish) ---
-    const timeDisplay = document.getElementById('local-time');
-
-    function updateTime() {
-        if (!timeDisplay) return;
-        const now = new Date();
-        const options = { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true };
-        const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
-        timeDisplay.textContent = `LA ${timeString}`;
-    }
-
-    setInterval(updateTime, 60000); // update every minute
-    updateTime(); // initial call
-});
+        //
