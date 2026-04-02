@@ -16,16 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryHeaders.forEach(header => {
         header.addEventListener('click', () => {
             const accordion = header.parentElement;
-            const icon = header.querySelector('.icon');
             const isOpen = accordion.classList.contains('open');
 
             if (isOpen) {
                 accordion.classList.remove('open');
-                icon.textContent = '+';
                 header.setAttribute('aria-expanded', 'false');
             } else {
                 accordion.classList.add('open');
-                icon.textContent = '−';
                 header.setAttribute('aria-expanded', 'true');
             }
             updateMenuContainerState();
@@ -39,16 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
         header.addEventListener('click', (e) => {
             e.stopPropagation();
             const li = header.parentElement;
-            const icon = header.querySelector('.item-icon');
             const isOpen = li.classList.contains('open');
 
             if (isOpen) {
                 li.classList.remove('open');
-                icon.textContent = '+';
                 header.setAttribute('aria-expanded', 'false');
             } else {
                 li.classList.add('open');
-                icon.textContent = '−';
                 header.setAttribute('aria-expanded', 'true');
             }
         });
@@ -63,33 +57,26 @@ document.addEventListener('DOMContentLoaded', () => {
         'Lexend', 'Noto Sans', 'IBM Plex Sans', 'Space Grotesk'
     ];
 
-    // Load all fonts via Google Fonts
     const fontLink = document.createElement('link');
     fontLink.rel = 'stylesheet';
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter&family=DM+Sans&family=Outfit&family=Manrope&family=Nunito&family=Raleway&family=Poppins&family=Lato&family=Montserrat&family=Source+Sans+3&family=Karla&family=Rubik&family=Work+Sans&family=Jost&family=Mulish&family=Barlow&family=Figtree&family=Plus+Jakarta+Sans&family=Urbanist&family=Sora&family=Be+Vietnam+Pro&family=Lexend&family=Noto+Sans&family=IBM+Plex+Sans&family=Space+Grotesk&display=swap';
     document.head.appendChild(fontLink);
 
-    // 300 shades: off-whites and blues
     function generatePalette() {
         const colors = [];
-
-        // ~150 off-white shades (warm, cool, neutral)
         for (let i = 0; i < 150; i++) {
-            const base = 235 + Math.floor(Math.random() * 20); // 235-255
+            const base = 235 + Math.floor(Math.random() * 20);
             const r = base;
             const g = base - Math.floor(Math.random() * 10);
             const b = base + Math.floor(Math.random() * 15);
             colors.push(`rgb(${Math.min(r,255)}, ${Math.min(g,255)}, ${Math.min(b,255)})`);
         }
-
-        // ~150 blue shades (deep navy to pale sky)
         for (let i = 0; i < 150; i++) {
-            const lightness = 10 + Math.floor(Math.random() * 75); // 10–85% lightness
-            const saturation = 30 + Math.floor(Math.random() * 60); // 30–90%
-            const hue = 200 + Math.floor(Math.random() * 40); // 200–240 (blue range)
+            const lightness = 10 + Math.floor(Math.random() * 75);
+            const saturation = 30 + Math.floor(Math.random() * 60);
+            const hue = 200 + Math.floor(Math.random() * 40);
             colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
         }
-
         return colors;
     }
 
@@ -115,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.backgroundColor = color;
         document.body.style.fontFamily = `'${font}', sans-serif`;
 
-        // Adjust text color based on background brightness
         const isDark = color.includes('hsl') && parseInt(color.match(/(\d+)%\)/)[1]) < 50;
         document.body.style.color = isDark ? '#e6e6e6' : '#1a1a1a';
         document.documentElement.style.setProperty('--text-primary', isDark ? '#e6e6e6' : '#1a1a1a');
@@ -133,9 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.code === 'Escape' || e.key === 'Escape') {
             document.querySelectorAll('.accordion, .item-list > li').forEach(el => {
                 el.classList.remove('open');
-            });
-            document.querySelectorAll('.icon, .item-icon').forEach(icon => {
-                icon.textContent = '+';
             });
             document.querySelectorAll('.accordion-header, .item-header').forEach(header => {
                 header.setAttribute('aria-expanded', 'false');
