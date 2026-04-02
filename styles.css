@@ -347,12 +347,17 @@ ul {
     font-size: 13px;
 }
 
-/* Footer — centered to column width */
+/* Footer — anchored to container width */
 .footer {
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: center;
 }
 
 .footer-links {
