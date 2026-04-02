@@ -82,4 +82,79 @@ document.addEventListener('DOMContentLoaded', () => {
             colors.push(`rgb(${Math.min(r,255)}, ${Math.min(g,255)}, ${Math.min(b,255)})`);
         }
 
-        //
+        // ~150 blue shades (deep navy to pale sky)
+        for (let i = 0; i < 150; i++) {
+            const lightness = 10 + Math.floor(Math.random() * 75); // 10–85% lightness
+            const saturation = 30 + Math.floor(Math.random() * 60); // 30–90%
+            const hue = 200 + Math.floor(Math.random() * 40); // 200–240 (blue range)
+            colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+        }
+
+        return colors;
+    }
+
+    const palette = generatePalette();
+    let lastFontIndex = -1;
+    let lastColorIndex = -1;
+
+    function getRandomDifferent(arr, lastIndex) {
+        let idx;
+        do { idx = Math.floor(Math.random() * arr.length); } while (idx === lastIndex);
+        return idx;
+    }
+
+    function applyRandomStyle() {
+        const fontIdx = getRandomDifferent(sansFonts, lastFontIndex);
+        const colorIdx = getRandomDifferent(palette, lastColorIndex);
+        lastFontIndex = fontIdx;
+        lastColorIndex = colorIdx;
+
+        const font = sansFonts[fontIdx];
+        const color = palette[colorIdx];
+
+        document.body.style.backgroundColor = color;
+        document.body.style.fontFamily = `'${font}', sans-serif`;
+
+        // Adjust text color based on background brightness
+        const isDark = color.includes('hsl') && parseInt(color.match(/(\d+)%\)/)[1]) < 50;
+        document.body.style.color = isDark ? '#e6e6e6' : '#1a1a1a';
+        document.documentElement.style.setProperty('--text-primary', isDark ? '#e6e6e6' : '#1a1a1a');
+        document.documentElement.style.setProperty('--text-muted', isDark ? '#888888' : '#666666');
+        document.documentElement.style.setProperty('--bg-color', color);
+    }
+
+    // --- Keyboard Navigation ---
+    document.addEventListener('keydown', (e) => {
+        if ((e.code === 'Space' || e.key === ' ') && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            applyRandomStyle();
+        }
+
+        if (e.code === 'Escape' || e.key === 'Escape') {
+            document.querySelectorAll('.accordion, .item-list > li').forEach(el => {
+                el.classList.remove('open');
+            });
+            document.querySelectorAll('.icon, .item-icon').forEach(icon => {
+                icon.textContent = '+';
+            });
+            document.querySelectorAll('.accordion-header, .item-header').forEach(header => {
+                header.setAttribute('aria-expanded', 'false');
+            });
+            updateMenuContainerState();
+        }
+    });
+
+    // --- Live Time ---
+    const timeDisplay = document.getElementById('local-time');
+
+    function updateTime() {
+        if (!timeDisplay) return;
+        const now = new Date();
+        const options = { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true };
+        const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
+        timeDisplay.textContent = `SF ${timeString}`;
+    }
+
+    setInterval(updateTime, 60000);
+    updateTime();
+});
