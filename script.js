@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categoryHeaders.forEach(header => {
         header.addEventListener('click', () => {
+            header.blur(); // release focus so spacebar always works
             const accordion = header.parentElement;
             const isOpen = accordion.classList.contains('open');
             if (isOpen) {
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     itemHeaders.forEach(header => {
         header.addEventListener('click', (e) => {
             e.stopPropagation();
+            header.blur(); // release focus so spacebar always works
             const li = header.parentElement;
             const isOpen = li.classList.contains('open');
             if (isOpen) {
@@ -67,13 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const r = Math.min(base, 255);
         const g = Math.min(base - Math.floor(Math.random() * 10), 255);
         const b = Math.min(base + Math.floor(Math.random() * 15), 255);
-        palette.push({ color: `rgb(${r}, ${g}, ${b})`, dark: false });
+        palette.push({ color: 'rgb(' + r + ', ' + g + ', ' + b + ')', dark: false });
     }
     for (let i = 0; i < 150; i++) {
         const lightness = 10 + Math.floor(Math.random() * 75);
         const saturation = 30 + Math.floor(Math.random() * 60);
         const hue = 200 + Math.floor(Math.random() * 40);
-        palette.push({ color: `hsl(${hue}, ${saturation}%, ${lightness}%)`, dark: lightness < 50 });
+        palette.push({ color: 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)', dark: lightness < 50 });
     }
 
     let lastFontIdx = -1;
@@ -89,46 +91,48 @@ document.addEventListener('DOMContentLoaded', () => {
         lastColorIdx = colorIdx;
 
         const font = sansFonts[fontIdx];
-        const { color, dark } = palette[colorIdx];
-        const textPrimary = dark ? '#e6e6e6' : '#1a1a1a';
-        const textMuted = dark ? '#888888' : '#666666';
-        const dividerColor = dark ? 'rgba(230,230,230,0.2)' : 'rgba(26,26,26,0.2)';
+        const entry = palette[colorIdx];
+        const textPrimary = entry.dark ? '#e6e6e6' : '#1a1a1a';
+        const textMuted = entry.dark ? '#888888' : '#666666';
+        const dividerColor = entry.dark ? 'rgba(230,230,230,0.2)' : 'rgba(26,26,26,0.2)';
 
-        document.body.style.backgroundColor = color;
-        document.body.style.fontFamily = `'${font}', sans-serif`;
+        document.body.style.backgroundColor = entry.color;
+        document.body.style.fontFamily = "'" + font + "', sans-serif";
         document.body.style.color = textPrimary;
         document.documentElement.style.setProperty('--text-primary', textPrimary);
         document.documentElement.style.setProperty('--text-muted', textMuted);
-        document.documentElement.style.setProperty('--bg-color', color);
+        document.documentElement.style.setProperty('--bg-color', entry.color);
 
-        const dividerLine = document.querySelector('.divider-line');
+        var dividerLine = document.querySelector('.divider-line');
         if (dividerLine) dividerLine.style.backgroundColor = dividerColor;
     }
 
     // --- Keyboard Navigation ---
-    // Only block space on INPUT and TEXTAREA — not on buttons, so it always fires
-    document.addEventListener('keydown', (e) => {
-        const tag = e.target.tagName;
-        if ((e.code === 'Space' || e.key === ' ') && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+    document.addEventListener('keydown', function(e) {
+        if (e.code === 'Space' || e.key === ' ') {
             e.preventDefault();
             applyRandomStyle();
+            return;
         }
-
         if (e.code === 'Escape' || e.key === 'Escape') {
-            document.querySelectorAll('.accordion, .item-list > li').forEach(el => el.classList.remove('open'));
-            document.querySelectorAll('.accordion-header, .item-header').forEach(h => h.setAttribute('aria-expanded', 'false'));
+            document.querySelectorAll('.accordion, .item-list > li').forEach(function(el) {
+                el.classList.remove('open');
+            });
+            document.querySelectorAll('.accordion-header, .item-header').forEach(function(h) {
+                h.setAttribute('aria-expanded', 'false');
+            });
             updateMenuContainerState();
         }
     });
 
     // --- Live Time ---
-    const timeDisplay = document.getElementById('local-time');
+    var timeDisplay = document.getElementById('local-time');
 
     function updateTime() {
         if (!timeDisplay) return;
-        const now = new Date();
-        const opts = { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true };
-        timeDisplay.textContent = `SF ${new Intl.DateTimeFormat('en-US', opts).format(now)}`;
+        var now = new Date();
+        var opts = { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true };
+        timeDisplay.textContent = 'SF ' + new Intl.DateTimeFormat('en-US', opts).format(now);
     }
 
     setInterval(updateTime, 60000);
