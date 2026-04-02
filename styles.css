@@ -156,15 +156,6 @@ ul {
     white-space: nowrap;
 }
 
-/* The hover logic */
-.main-name:hover .name-en {
-    opacity: 0;
-}
-
-.main-name:hover .name-zh {
-    opacity: 1;
-}
-
 /* Accordion Menus container */
 .menus-container {
     width: 100%;
