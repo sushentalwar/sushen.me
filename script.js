@@ -103,10 +103,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.fontFamily = `'${font}', sans-serif`;
 
         const isDark = color.includes('hsl') && parseInt(color.match(/(\d+)%\)/)[1]) < 50;
-        document.body.style.color = isDark ? '#e6e6e6' : '#1a1a1a';
-        document.documentElement.style.setProperty('--text-primary', isDark ? '#e6e6e6' : '#1a1a1a');
+        const textColor = isDark ? '#e6e6e6' : '#1a1a1a';
+
+        document.body.style.color = textColor;
+        document.documentElement.style.setProperty('--text-primary', textColor);
         document.documentElement.style.setProperty('--text-muted', isDark ? '#888888' : '#666666');
         document.documentElement.style.setProperty('--bg-color', color);
+
+        // Update divider line to match text color
+        const dividerLine = document.querySelector('.divider-line');
+        if (dividerLine) {
+            dividerLine.style.backgroundColor = isDark ? 'rgba(230,230,230,0.2)' : 'rgba(26,26,26,0.2)';
+        }
     }
 
     // --- Keyboard Navigation ---
