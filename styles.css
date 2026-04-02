@@ -32,7 +32,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
@@ -92,7 +92,7 @@ ul {
 }
 
 .hint-text {
-    font-size: 11px;
+    font-size: 13px;
     text-transform: lowercase;
     letter-spacing: 1px;
     color: var(--text-muted);
@@ -102,7 +102,7 @@ ul {
     position: absolute;
     top: -25px;
     left: 0;
-    font-size: 11px;
+    font-size: 13px;
     text-transform: lowercase;
     letter-spacing: 1.5px;
     color: var(--text-muted);
@@ -140,7 +140,7 @@ ul {
     width: 100%;
     max-width: 1100px;
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.15);
     margin-bottom: 2.5rem;
 }
 
@@ -187,7 +187,7 @@ ul {
 .accordion-header .icon {
     margin-left: 0.5rem;
     color: var(--text-muted);
-    font-size: 10px;
+    font-size: 12px;
     display: inline-block;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
@@ -281,7 +281,7 @@ ul {
 
 /* Rotating arrow for sub-items */
 .item-icon {
-    font-size: 10px;
+    font-size: 12px;
     display: inline-block;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
@@ -326,6 +326,7 @@ ul {
     color: var(--text-primary);
     font-style: italic;
     font-family: var(--font-serif);
+    font-size: 15px;
 }
 
 .item-reading {
@@ -338,15 +339,15 @@ ul {
     color: var(--text-primary);
     font-style: italic;
     font-family: var(--font-serif);
-    font-size: 15px;
+    font-size: 17px;
 }
 
 .book-author {
     margin-left: 8px;
-    font-size: 11px;
+    font-size: 13px;
 }
 
-/* Footer — centered */
+/* Footer — centered to column width */
 .footer {
     position: fixed;
     bottom: 30px;
@@ -357,7 +358,7 @@ ul {
 .footer-links {
     display: flex;
     gap: 1.5rem;
-    font-size: 11px;
+    font-size: 13px;
     color: var(--text-muted);
     letter-spacing: 1px;
     align-items: center;
@@ -383,7 +384,7 @@ ul {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive: stack columns on mobile */
+/* Responsive */
 @media (max-width: 768px) {
     .columns-grid {
         grid-template-columns: 1fr;
