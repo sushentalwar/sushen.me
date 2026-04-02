@@ -194,6 +194,14 @@ ul {
     transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
     .accordion-content p {
     color: var(--text-muted);
+        .accordion-content p {
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.item-details p {
+    margin-bottom: 0.5rem;
+}
 }
 }
 
