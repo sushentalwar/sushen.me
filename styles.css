@@ -117,7 +117,7 @@ ul {
 
 /* Main Name */
 .name-container {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -133,6 +133,15 @@ ul {
 
 .name-en {
     transition: opacity var(--transition-speed) ease;
+}
+
+/* Divider line under name */
+.divider-line {
+    width: 100%;
+    max-width: 1100px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.08);
+    margin-bottom: 2.5rem;
 }
 
 /* Two-column menus container */
@@ -337,11 +346,12 @@ ul {
     font-size: 11px;
 }
 
-/* Footer */
+/* Footer — centered */
 .footer {
     position: fixed;
     bottom: 30px;
-    left: 40px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .footer-links {
@@ -350,6 +360,7 @@ ul {
     font-size: 11px;
     color: var(--text-muted);
     letter-spacing: 1px;
+    align-items: center;
 }
 
 .footer-links a:hover {
@@ -389,7 +400,8 @@ ul {
     }
 
     .footer {
-        left: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         bottom: 20px;
     }
 }
