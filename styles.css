@@ -139,6 +139,13 @@ ul {
     cursor: default;
     display: inline-block;
 }
+.main-name:hover .name-en {
+    opacity: 0;
+}
+
+.main-name:hover .name-zh {
+    opacity: 1;
+}
 
 .name-en,
 .name-zh {
