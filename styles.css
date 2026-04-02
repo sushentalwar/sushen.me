@@ -1,18 +1,15 @@
 :root {
     --bg-color: #0c1210;
-    /* Very deep green-black */
     --text-primary: #e6e6e6;
     --text-muted: #888888;
     --font-serif: 'EB Garamond', Georgia, serif;
     --font-mono: 'SF Mono', 'Roboto Mono', Consolas, monospace;
     --font-name: 'EB Garamond', Georgia, serif;
-    /* Main name font */
     --transition-speed: 0.4s;
 }
 
 body.light-theme {
     --bg-color: #f5f2eb;
-    /* Off-white / light beige from reference image */
     --text-primary: #000000;
     --text-muted: #666666;
     --font-name: 'Playfair Display', Georgia, serif;
@@ -20,7 +17,6 @@ body.light-theme {
 
 body.navy-theme {
     --bg-color: #050b14;
-    /* Deep navy blue */
     --text-primary: #e2e8f0;
     --text-muted: #718096;
     --font-name: 'Inter', sans-serif;
@@ -36,7 +32,6 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     font-family: var(--font-mono);
-    /* Default to mono for utility text */
     font-size: 13px;
     line-height: 1.6;
     min-height: 100vh;
@@ -48,7 +43,6 @@ body {
     transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
-/* Typography Details */
 h1 {
     font-family: var(--font-name);
     font-weight: 400;
@@ -79,7 +73,6 @@ ul {
     list-style: none;
 }
 
-/* Layout */
 .container {
     display: flex;
     flex-direction: column;
@@ -89,10 +82,8 @@ ul {
     padding: 2rem;
     position: relative;
     transform: translateY(-5vh);
-    /* Slightly offset from dead center */
 }
 
-/* Hit Space Hint */
 .hint-container {
     position: fixed;
     top: 30px;
@@ -109,7 +100,6 @@ ul {
 .esc-hint-above-menus {
     position: absolute;
     top: -25px;
-    /* Above the first accordion */
     left: 0;
     font-size: 11px;
     text-transform: lowercase;
@@ -124,7 +114,6 @@ ul {
     opacity: 1;
 }
 
-/* Main Name - Hover Translation Effect */
 .name-container {
     margin-bottom: 6rem;
     display: flex;
@@ -140,26 +129,13 @@ ul {
     display: inline-block;
 }
 
-.name-en,
-.name-zh {
+.name-en {
     transition: opacity var(--transition-speed) ease;
 }
 
-.name-zh {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    font-size: 5rem;
-    /* slightly smaller to fit bounds nicely */
-    white-space: nowrap;
-}
-
-/* Accordion Menus container */
 .menus-container {
     width: 100%;
-    max-width: 700px; /* CHANGED: was 400px */
+    max-width: 700px;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -169,7 +145,6 @@ ul {
     width: 100%;
 }
 
-/* Category Headers (WORK +, BUILD +, READ +) */
 .accordion-header {
     text-transform: uppercase;
     letter-spacing: 1.5px;
@@ -187,40 +162,33 @@ ul {
     transition: transform 0.3s ease;
 }
 
-/* Expanding Content Logic */
 .accordion-content {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-        .accordion-content p {
-    color: var(--text-muted);
-    margin-bottom: 0.75rem;
-            .accordion-content a {
-    text-decoration: underline;
-}
-}
-
-.item-details p {
-    margin-bottom: 0.5rem;
-}
-}
 }
 
 .accordion.open .accordion-content {
-    max-height: 9999px; /* CHANGED: was 1000px */
+    max-height: 9999px;
     transition: max-height 1s ease-in-out;
 }
 
-/* Inside the category: Sub-items */
+.accordion-content p {
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.accordion-content a {
+    text-decoration: underline;
+}
+
 .item-list {
     margin-top: 1rem;
     padding-left: 10px;
-    /* Indent sub items */
     display: flex;
     flex-direction: column;
     gap: 1rem;
     border-left: 1px solid rgba(255, 255, 255, 0.05);
-    /* very subtle vertical line */
 }
 
 .item-list>li {
@@ -232,7 +200,8 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--text-muted);
+    color: var(--text-primary);
+    font-weight: bold;
     transition: color 0.2s ease;
 }
 
@@ -256,7 +225,6 @@ ul {
     border-radius: 50%;
     position: absolute;
     left: -15px;
-    /* position dot outside */
     opacity: 0;
     transition: opacity 0.2s ease;
 }
@@ -270,7 +238,6 @@ ul {
     font-size: 11px;
 }
 
-/* Sub-item detailed description */
 .item-details {
     max-height: 0;
     overflow: hidden;
@@ -278,13 +245,16 @@ ul {
     color: var(--text-muted);
     padding-top: 0;
     margin-left: 20px;
-    /* indent description more */
 }
 
 .item-list>li.open .item-details {
-    max-height: 2000px; /* CHANGED: was 200px */
+    max-height: 2000px;
     padding-top: 0.5rem;
     transition: max-height 0.6s ease-in-out;
+}
+
+.item-details p {
+    margin-bottom: 0.5rem;
 }
 
 .item-link {
@@ -295,7 +265,6 @@ ul {
     font-family: var(--font-serif);
 }
 
-/* Simple reading list items */
 .item-reading {
     color: var(--text-muted);
     margin-left: 20px;
@@ -314,7 +283,6 @@ ul {
     font-size: 11px;
 }
 
-/* Footer Links */
 .footer {
     position: fixed;
     bottom: 30px;
@@ -333,7 +301,6 @@ ul {
     color: var(--text-primary);
 }
 
-/* Animations upon load */
 .fade-in {
     animation: fadeIn 1.5s ease-out forwards;
     opacity: 0;
@@ -360,21 +327,15 @@ ul {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* Responsive constraints */
 @media (max-width: 600px) {
     .main-name {
         font-size: 4rem;
-    }
-
-    .name-zh {
-        font-size: 3.5rem;
     }
 
     .hint-container {
